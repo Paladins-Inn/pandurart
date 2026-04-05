@@ -4,31 +4,54 @@ include::partial$config.adoc[]
 ----
 @startuml whitebox-scs
 
-[pandurart] <<Ingress>> as ingress
+interface pandurart <<Ingress>> as ingress
 
 component "pandurart" <<SCS,spring-boot>> as service {
-[Frontend] <<Java, JTE, Bootstrap, REST, JSON>> as frontend
+  [Frontend] <<Java, JTE, Bootstrap, REST, JSON>> as frontend
 
-  [Core] <<Java, spring-data-jpa>> as core
+  [Locations] <<Java, spring-data-jpa>> as locations
+  [Events] <<Java, spring-data-jpa>> as events
+  interface "data" as eventPersonData
+  [Persons] <<Java, spring-data-jpa>> as persons
+  interface "data" as locationPersonData
+
+  persons -up-( eventPersonData
+  eventPersonData -up- events
+  persons -up-( locationPersonData
+  locationPersonData -up- locations
+
+  locations --( communication
+  events --( communication
+  communication -- persons
 
   database "pandurart" <<Postgres>> as data
-
-  [Integrations] <<Java, spring-boot, API>> as services
 }
 
 
-ingress --> frontend : uses
-frontend -right-> core : uses
-core --> services : uses
-core -right-> data
+ingress --> frontend
+frontend -down-> locations
+frontend -down-> events
+frontend -down-> persons
 
-[Discord] as discord
-[OpenStreetMap] as osm
-[3words] as what3words
+locations -right- data
+events -right- data
+persons -right- data
 
-services <--> discord : API
-services --> osm : REST
-services --> what3words : REST
+together {
+  interface SMS as sms
+  interface Fediverse as fediverse
+  interface Mail as mail
+  interface Discord as discord
+  interface OpenStreetMap as osm
+  interface 3words as what3words
+}
+
+persons -down-( discord : API
+persons -down-( mail : SMTP
+persons -down-( fediverse : API
+persons -down-(  sms : API
+locations -down-( osm : REST
+locations -down-( what3words : REST
 
 @enduml
 ----
