@@ -1,4 +1,5 @@
-.idea/
 docs/generated/
 target/
 *.iml
+local.*
+!local.properties-example

@@ -1,0 +1,15 @@
+.git/
+.github/
+docs/
+.dockerignore
+KES Corporate Contributor License Agreement (2019-12-31).pdf
+.idea/
+/*.iml
+.env-local
+http-client.private.env.json
+*.http
+local.*
+lombok.config
+package.json
+package-lock.json
+.java-version
