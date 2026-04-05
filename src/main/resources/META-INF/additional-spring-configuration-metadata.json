@@ -1,0 +1,44 @@
+{
+  "properties": [
+    {
+      "name": "spring.application.description",
+      "type": "java.lang.String",
+      "description": "A short description of the application."
+    },
+    {
+      "name": "google.client-id",
+      "type": "java.lang.String",
+      "description": "The client-id for google OAuth2."
+    },
+    {
+      "name": "google.client-secret",
+      "type": "java.lang.String",
+      "description": "The client-secret for google Oauth2."
+    },
+    {
+      "name": "google.calendar.id",
+      "type": "java.lang.String",
+      "description": "The ID of the Google Calendar to be used."
+    },
+    {
+      "name": "geocoding.api.key",
+      "type": "java.lang.String",
+      "description": "The API key for accessing the geocode.maps.co service."
+    },
+    {
+      "name": "geocoding.api.url",
+      "type": "java.lang.String",
+      "description": "The URL used to access the geocode.maps.co API."
+    },
+    {
+      "name": "what3words.api.key",
+      "type": "java.lang.String",
+      "description": "The API key for accessing the What3Words service."
+    },
+    {
+      "name": "what3words.api.url",
+      "type": "java.lang.String",
+      "description": "The URL used to access the What3Words API."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+spring:
+  config:
+    import: optional:classpath:local.properties
+  jpa:
+    hibernate:
+      ddl-auto: create

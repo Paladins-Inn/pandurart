@@ -1,0 +1,134 @@
+spring:
+  profiles:
+    active: default
+  main:
+    banner-mode: off
+  
+  application:
+    name: rollenspiel-cons
+    description: Rollenspiel PhysicalEvent Management
+    version: @project.version@
+    
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rollenspiel-cons
+    username: ${SPRING_DATASOURCE_USERNAME:changeme}
+    password: ${SPRING_DATASOURCE_PASSWORD:changeme}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 1
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: cons
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  
+  security:
+    oauth2:
+      client:
+        registration:
+          sso:
+            client-name: Pandur SSO
+            client-id: changeme
+            client-secret: changeme
+            scope: openid,profile,email,roles,discord
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          sso:
+            issuer-uri: https://sso.pandur.org/realms/rollenspiel-cons
+            user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: https://sso.pandur.org/realms/rollenspiel-cons
+          jwk-set-uri: https://sso.pandur.org/realms/rollenspiel-cons/protocol/openid-connect/certs
+  
+  
+  cache:
+    type: simple
+
+  devtools:
+    livereload:
+      enabled: true
+    add-properties: true
+
+  web:
+    locale: de_DE
+    
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 1800s
+    context-path: /
+  forward-headers-strategy: native
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,application/javascript,application/json
+    min-response-size: 2048
+  
+management:
+  metrics:
+    enable:
+      jvm: true
+      process: true
+      system: true
+      web: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,metrics
+  endpoint:
+    health:
+      show-details: always
+  server:
+    port: 8081
+
+google:
+  client-id: changeme
+  client-secret: changeme
+  calendar:
+    id: changeme
+  
+what3words:
+  api:
+    key: changeme
+    url: https://api.what3words.com/
+
+geocoding:
+  api:
+    key: changeme
+    url: http://geocode.maps.co/search
+  rate-limit: 3
+
+snowflake:
+  datacenter-id: 1
+  machine-id: 1
+  
+aes256:
+  key: changeme
+
+gg:
+  jte:
+    usePrecompiledTemplates: true
+    template-location: src/main/jte
+    template-suffix: .jte
+
+ingress:
+  host: changeme
+
+logging:
+  level:
+    root: INFO
+    de.paladinsinn: DEBUG

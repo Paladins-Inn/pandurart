@@ -1,0 +1,48 @@
+= Business Context
+
+include::partial$config.adoc[]
+
+.The business context of pandurart.
+[plantuml,business-context,svg]
+----
+@startuml
+skinparam actorStyle awesome
+
+together {
+  :Event Orga: as orga << Human >>
+  :Player: as player << Human >>
+  :GM: as gm << Human >>
+}
+
+rectangle <<External>> {
+  [Discord] as discord << External Service >>
+  [Google Calendar] as gcal << External Service >>
+  [ICal] as ical << External Service >>
+  [3words] as what3words << External Service >>
+  [OpenStreetMap] as osm << External Service >>
+  [Mail Server] as mail << External Service >>
+}
+
+
+gm    .u.|> player : is a
+orga  .u.|> player : is a
+
+[pandurart] <<SCS>> as service
+[sso] <<SSO>> as sso
+
+player <--> discord : sends/receives
+player --> service : uses
+player --> sso : logs into
+
+service <--> discord : sends/receives
+service --> gcal
+service --> ical
+service --> what3words
+service --> osm
+
+mail <-- service : sends email
+mail --> player : sends email
+
+sso <-.- service
+@enduml
+----

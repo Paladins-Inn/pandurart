@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: rollenspiel-cons
+    description: Rollenspiel PhysicalEvent Management
+    version: 999.999-SNAPSHOT
+  config:
+    import: classpath:local.properties
+    
+ingress:
+  host: localhost:8080

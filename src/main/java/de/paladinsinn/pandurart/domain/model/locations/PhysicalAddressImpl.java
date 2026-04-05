@@ -1,0 +1,138 @@
+/*
+ * Copyright (c) 2025. Roland T. Lichti, Kaiserpfalz EDV-Service
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package de.paladinsinn.pandurart.domain.model.locations;
+
+
+import de.paladinsinn.pandurart.domain.api.locations.PhysicalAddress;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+
+/**
+ * A full location for all used systems.
+ *
+ * @author klenkes74
+ * @since 21.09.25
+ */
+@Schema(
+    title = "PhysicalAddress",
+    description = "A locations with address and coordinates.",
+    examples = {
+        """
+         {
+           "address": "Darmstädter Str. 12, 64625 Bensheim",
+           "threeWords": "neuerung.sportler.zelter",
+           "longitude": 8.621361,
+           "latitude": 49.684139
+         }
+         """,
+        """
+         {
+           "address": "Messegelände 1, 60327 Frankfurt am Main",
+           "threeWords": "dörfern.beweis.zwischen",
+           "longitude": 8.2769618,
+           "latitude": 49.8887193
+         }
+         """
+    }
+)
+@Jacksonized
+@SuperBuilder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@ToString
+@EqualsAndHashCode(of = {"longitude", "latitude"}, callSuper = true)
+public class PhysicalAddressImpl extends LocationImpl implements PhysicalAddress {
+  
+  @Schema(
+      title = "Address of the locations",
+      description = "The full address of the locations.",
+      examples = {
+          "Darmstädter Str. 12, 64625 Bensheim",
+          "Messegelände 1, 60327 Frankfurt am Main"
+      },
+      required = true
+  )
+  @NotNull
+  @Size(min = 5, max = 250, message = "Address must be between 5 and 250 characters long")
+  private String address;
+  
+  @Schema(
+      title = "What3Words locations",
+      description = "The What3Words locations of the address.",
+      examples = {
+          "neuerung.sportler.zelter",
+          "dörfern.beweis.zwischen"
+      },
+      required = true,
+      pattern = "^[a-zA-ZäöüÄÖÜß]+\\.[a-zA-ZäöüÄÖÜß]+\\.[a-zA-ZäöüÄÖÜß]+$"
+  )
+  @NotNull
+  @Pattern(regexp = "^[a-zA-ZäöüÄÖÜß]+\\.[a-zA-ZäöüÄÖÜß]+\\.[a-zA-ZäöüÄÖÜß]+$", message = "threeWords must be in the format word1.word2.word3 with only letters and German umlauts")
+  private String threeWords;
+  
+  @Schema(
+      title = "Longitude of the locations",
+      description = "The longitude of the locations in decimal degrees.",
+      examples = { "8.621361", "8.2769618" },
+      minimum = "-180",
+      maximum = "180",
+      required = true
+  )
+  @NotNull
+  @Size(min =  -180, max = 180, message = "Longitude must be between {min} and {max} characters long")
+  private Double longitude;
+  
+  @Schema(
+      title = "Latitude of the locations",
+      description = "The latitude of the locations in decimal degrees.",
+      examples = { "49.684139", "49.8887193" },
+      minimum = "-90",
+      maximum = "90",
+      required = true
+  )
+  @NotNull
+  @Size(min =  -180, max = 180, message = "Longitude must be between {min} and {max} characters long")
+  private Double latitude;
+  
+  
+  @Override
+  public String getDisplayText() {
+    return address;
+  }
+  
+  @Override
+  public String getEmailText() {
+    return address + " (" + getUri() + ")";
+  }
+  
+  @Override
+  public String getUri() {
+    return "https://www.openstreetmap.org/#map=19/" + longitude + "/" + latitude;
+  }
+}

@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 2025. Roland T. Lichti, Kaiserpfalz EDV-Service
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package de.paladinsinn.pandurart.persistence.mapper;
+
+
+import de.paladinsinn.pandurart.persistence.EmbeddableOwner;
+import org.mapstruct.Mapper;
+
+
+/**
+ * Maps the owner to the database embeddable object.
+ *
+ * @author klenkes74 {@literal <rlichti@kaiserpfalz-edv.de>}
+ * @since 2025-10-18
+ */
+@Mapper(componentModel = "spring")
+public interface OwnerMapper {
+  default EmbeddableOwner toEmbeddableOwner(final String owner) {
+    return EmbeddableOwner.builder().owner(owner).build();
+  }
+  
+  default String toOwner(final EmbeddableOwner owner) {
+    return owner.getOwner();
+  }
+}

@@ -1,0 +1,1182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2026 Kaiserpfalz EDV-Service, Roland T. Lichti.
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses />.
+  -->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.paladins-inn.pandurart</groupId>
+  <artifactId>pandurart</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+
+  <name>${project.groupId}:${project.artifactId}</name>
+  <url>https://pandur.art/</url>
+
+  <inceptionYear>2026</inceptionYear>
+
+  <properties>
+    <skipTests>false</skipTests>
+    <skip.jar>false</skip.jar>
+    <skip.javadoc>false</skip.javadoc>
+    <skip.source>false</skip.source>
+    <skip.site>false</skip.site>
+    <skip.owasp>true</skip.owasp>
+    <skip.coverage>true</skip.coverage>
+
+    <gpg.keyname>AF380360D648FC1D4BA7DBBA6A09445FE79CABD8</gpg.keyname>
+
+    <app.aes256.key>9ITuE9U2rzZwZF76wLGURy1Jw/oRWChvG8bIRPzS7ps=</app.aes256.key>
+
+    <main.basedir>${project.basedir}</main.basedir>
+    <argLine/>
+
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+    <maven.compiler.source>25</maven.compiler.source>
+    <maven.compiler.target>25</maven.compiler.target>
+    <maven.compiler.release>25</maven.compiler.release>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.inputEncoding>UTF-8</project.reporting.inputEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <spring-boot.version>4.0.4</spring-boot.version>
+    <spring-cloud.version>2025.1.1</spring-cloud.version>
+  </properties>
+
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>jakarta.platform</groupId>
+        <artifactId>jakarta.jakartaee-bom</artifactId>
+        <version>11.0.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+
+      <!-- testing -->
+
+      <dependency>
+        <groupId>org.wiremock</groupId>
+        <artifactId>wiremock</artifactId>
+        <version>3.12.1</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.mnode.ical4j</groupId>
+      <artifactId>ical4j</artifactId>
+      <version>4.0.0</version>
+      <exclusions>
+        <exclusion><!-- CVE-2025-48924 -->
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.18.0</version>
+    </dependency>
+
+
+    <!-- Command Line Parsing -->
+    <dependency>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+      <version>4.7.5</version>
+    </dependency>
+
+
+    <!-- what3words -->
+    <dependency>
+      <groupId>com.what3words</groupId>
+      <artifactId>w3w-java-wrapper</artifactId>
+      <version>3.1.22</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.squareup.okhttp3</groupId>
+          <artifactId>okhttp</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.squareup.okio</groupId>
+          <artifactId>okio-jvm</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency><!-- CVE-2023-3635 https://github.com/advisories/GHSA-w33c-445m-f8w7 -->
+      <groupId>com.squareup.okio</groupId>
+      <artifactId>okio-jvm</artifactId>
+      <version>3.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>4.12.0</version>
+    </dependency>
+
+
+    <!-- Evaluate mathematical expressions -->
+    <dependency>
+      <groupId>net.objecthunter</groupId>
+      <artifactId>exp4j</artifactId>
+      <version>0.4.8</version>
+    </dependency>
+
+
+    <!-- Snowflake-ID Generator -->
+    <dependency>
+      <groupId>cn.ipokerface</groupId>
+      <artifactId>snowflake-id-generator</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+
+
+    <!-- Web -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-hateoas</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web-services</artifactId>
+    </dependency>
+
+
+    <!-- Templating -->
+    <dependency>
+      <groupId>gg.jte</groupId>
+      <artifactId>jte-spring-boot-starter-3</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vladsch.flexmark</groupId>
+      <artifactId>flexmark-all</artifactId>
+      <version>0.64.0</version>
+      <exclusions>
+        <exclusion><!-- CVE-2022-36033 -->
+          <groupId>org.jsoup</groupId>
+          <artifactId>jsoup</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.19.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+      <artifactId>owasp-java-html-sanitizer</artifactId>
+      <version>20211018.1</version>
+      <exclusions>
+        <exclusion><!-- CVE-2023-2976 -->
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+
+    <!-- Persistence -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Caching -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.ben-manes.caffeine</groupId>
+      <artifactId>caffeine</artifactId>
+    </dependency>
+
+
+    <!-- Security -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>oauth2-oidc-sdk</artifactId>
+      <version>9.43.6</version>
+      <exclusions>
+        <exclusion><!-- CVE-2025-53864 -->
+          <groupId>com.nimbusds</groupId>
+          <artifactId>nimbus-jose-jwt</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>nimbus-jose-jwt</artifactId>
+      <version>9.37.4</version>
+    </dependency>
+
+    <!-- syntactical sugar and helpers -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>33.5.0-jre</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>1.6.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>1.6.3</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.semver4j</groupId>
+      <artifactId>semver4j</artifactId>
+      <version>5.7.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.inject</groupId>
+      <artifactId>jakarta.inject-api</artifactId>
+      <version>2.0.1.MR</version>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.20.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
+      <version>4.9.3</version>
+    </dependency>
+
+
+    <!-- Observability -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.config</groupId>
+      <artifactId>microprofile-config-api</artifactId>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.microprofile.openapi</groupId>
+      <artifactId>microprofile-openapi-api</artifactId>
+      <version>4.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>7.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aspectj</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-tracing-bridge-brave</artifactId>
+    </dependency>
+
+
+    <!-- Testing -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+
+  <licenses>
+    <license>
+      <name>GNU GENERAL PUBLIC LICENSE</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.de.html</url>
+      <distribution>repo</distribution>
+      <comments>
+        The GNU General Public License is a free, copyleft license for software and other kinds of works.
+      </comments>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>Kaiserpfalz EDV-Service</name>
+    <url>https://www.kaiserpfalz-edv.de</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>klenkes74</id>
+      <name>Roland T. Lichti</name>
+      <email>rlichti@kaiserpfalz-edv.de</email>
+      <url>https://www.lichti.de</url>
+      <roles>
+        <role>Project Chair</role>
+        <role>Developer</role>
+        <role>somebody</role><!-- "'somebody' really should do ..." -->
+      </roles>
+      <properties>
+        <picUrl>https://secure.gravatar.com/avatar/3b5c4008dc30b266341632f9931aab56</picUrl>
+      </properties>
+
+      <organization>Paladins Inn</organization>
+      <organizationUrl>https://www.paladins-inn.de</organizationUrl>
+      <timezone>Europe/Berlin</timezone>
+    </developer>
+  </developers>
+
+
+  <scm>
+    <url>https://github.com/Paladins-Inn/pandurart</url>
+    <connection>scm:git:git://github.com/Paladins-Inn/pandurart.git</connection>
+    <developerConnection>scm:git:git@github.com:Paladins-Inn/pandurart.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <url>https://github.com/Paladins-Inn/pandurart/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <distributionManagement>
+    <site>
+      <id>github</id>
+      <name>Paladins Inn -- pandurart</name>
+      <url>scm:git:git@github.com:Paladins-Inn/pandurart.git</url>
+    </site>
+    <repository>
+      <id>github</id>
+      <name>GitHub Paladins Inn Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/Paladins-Inn/pandurart</url>
+    </repository>
+  </distributionManagement>
+
+  <build>
+    <finalName>app</finalName>
+
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.2.7</version>
+          <configuration>
+            <gpgArguments>
+              <arg>--pinentry-mode</arg>
+              <arg>loopback</arg>
+            </gpgArguments>
+          </configuration>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.11.2</version>
+          <configuration>
+            <skip>${skip.javadoc}</skip>
+            <charset>${project.build.sourceEncoding}</charset>
+            <show>public</show>
+            <failOnError>true</failOnError>
+            <detectOfflineLinks>false</detectOfflineLinks>
+            <doclint>all,-missing</doclint>
+            <minmemory>128m</minmemory>
+            <maxmemory>1g</maxmemory>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-javadoc</id>
+              <phase>package</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.1</version>
+          <configuration>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <propertiesEncoding>${project.build.sourceEncoding}</propertiesEncoding>
+            <delimiters>
+              <delimiter>@</delimiter>
+            </delimiters>
+            <useDefaultDelimiters>false</useDefaultDelimiters>
+            <nonFilteredFileExtensions>
+              <nonFilteredFileExtension>docx</nonFilteredFileExtension>
+              <nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
+              <nonFilteredFileExtension>zip</nonFilteredFileExtension>
+              <nonFilteredFileExtension>tgz</nonFilteredFileExtension>
+              <nonFilteredFileExtension>png</nonFilteredFileExtension>
+              <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
+              <nonFilteredFileExtension>gpg</nonFilteredFileExtension>
+              <nonFilteredFileExtension>license</nonFilteredFileExtension>
+              <nonFilteredFileExtension>p12</nonFilteredFileExtension>
+            </nonFilteredFileExtensions>
+          </configuration>
+          <executions>
+            <execution>
+              <id>test-sources-generation</id>
+              <phase>generate-test-resources</phase>
+              <goals>
+                <goal>testResources</goal>
+              </goals>
+              <configuration>
+                <skip>${skipTests}</skip>
+              </configuration>
+            </execution>
+            <execution>
+              <id>copy-local.properties</id>
+              <phase>generate-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${project.basedir}</directory>
+                    <includes>
+                      <include>local.properties</include>
+                    </includes>
+                    <filtering>false</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.21.0</version>
+        </plugin>
+
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.9.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>12.1.0</version>
+          <configuration>
+            <skip>${skip.owasp}</skip>
+            <suppressionFiles>
+              <suppressionFile>${main.basedir}/owasp-suppressions.xml</suppressionFile>
+            </suppressionFiles>
+            <failBuildOnCVSS>8</failBuildOnCVSS>
+            <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+            <failOnError>true</failOnError>
+            <nvdDatafeedServerId>nvdApi</nvdDatafeedServerId>
+            <nvdApiServerId>nvdApi</nvdApiServerId>
+            <msbuildAnalyzerEnabled>false</msbuildAnalyzerEnabled>
+            <nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
+            <pipAnalyzerEnabled>false</pipAnalyzerEnabled>
+            <nugetconfAnalyzerEnabled>false</nugetconfAnalyzerEnabled>
+            <skipSystemScope>true</skipSystemScope>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.12</version>
+          <configuration>
+            <skip>${skip.coverage}</skip>
+            <rules>
+              <permission>
+                <element>BUNDLE</element>
+                <limits>
+                  <limit>
+                    <counter>COMPLEXITY</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0</minimum>
+                  </limit>
+                </limits>
+              </permission>
+            </rules>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok-maven-plugin</artifactId>
+          <version>1.18.20.0</version>
+          <configuration>
+            <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+            <outputDirectory>${delombok.output}</outputDirectory>
+            <addOutputDirectory>false</addOutputDirectory>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>delombok</goal>
+              </goals>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>1.18.44</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring-boot.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>repackage</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.14.0</version>
+          <configuration>
+            <useModulePath>false</useModulePath>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.44</version>
+              </path>
+              <path>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>1.6.3</version>
+              </path>
+            </annotationProcessorPaths>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>gg.jte</groupId>
+          <artifactId>jte-maven-plugin</artifactId>
+          <version>3.1.13</version>
+          <configuration>
+            <sourceDirectory>${project.basedir}/src/main/jte</sourceDirectory>
+            <targetDirectory>${project.build.outputDirectory}</targetDirectory>
+            <contentType>Html</contentType>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>process-classes</phase>
+              <goals>
+                <goal>precompile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.5.3</version>
+          <configuration>
+            <argLine>@{argLine}</argLine>
+            <environmentVariables>
+              <APP_AES256_KEY>${app.aes256.key}</APP_AES256_KEY>
+            </environmentVariables>
+            <useModulePath>false</useModulePath>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>properties-maven-plugin</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <files>
+              <file>local.properties</file>
+            </files>
+            <outputFile>
+              ${project.build.directory}/generated-resources/app.properties
+            </outputFile>
+            <properties>
+              <property>aes256.key</property>
+            </properties>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>initialize</phase>
+              <goals>
+                <goal>read-project-properties</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>gg.jte</groupId>
+        <artifactId>jte-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.8.0</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>dependencies</report>
+              <report>licenses</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>index</report>
+              <report>dependencies</report>
+              <report>team</report>
+              <report>mailing-lists</report>
+              <report>ci-management</report>
+              <report>issue-management</report>
+              <report>licenses</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <configLocation>kaiserpfalz/checkstyle.xml</configLocation>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!-- select non-aggregate reports -->
+              <report>checkstyle</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>checkstyle-aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.5.0</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!-- select non-aggregate reports -->
+              <report>jxr</report>
+              <report>test-jxr</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+              <report>test-aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.24.0</version>
+        <configuration>
+          <linkXref>true</linkXref>
+          <inputEncoding>${project.reporting.inputEncoding}</inputEncoding>
+          <minimumTokens>100</minimumTokens>
+          <targetJdk>${maven.compiler.target}</targetJdk>
+          <excludeRoot>
+            <excludeRoot>target/generated-sources</excludeRoot>
+          </excludeRoot>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>pmd</report>
+                <report>cpd</report>
+              </reports>
+            </reportSet>
+            <reportSet>
+              <id>aggregate</id>
+              <inherited>false</inherited>
+              <reports>
+                <report>aggergate-pmd</report>
+                <report>aggergate-cpd</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!-- select non-aggregate reports -->
+              <report>report</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>report-aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>12.1.1</version>
+        <configuration>
+          <suppressionFiles>
+            <suppressionFile>${main.basedir}/owasp-suppressions.xml</suppressionFile>
+          </suppressionFiles>
+          <skip>${skip.owasp}</skip>
+          <failBuildOnCVSS>8</failBuildOnCVSS>
+          <nvdApiServerId>nvdApi</nvdApiServerId>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
+  <profiles>
+    <profile>
+      <id>release</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+          </plugin>
+
+          <plugin>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-maven-plugin</artifactId>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.11.2</version>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>site</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>3.21.0</version>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>3.8.0</version>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-report-plugin</artifactId>
+            <version>3.4.0</version>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>javadoc-no-fork</report>
+                  <report>test-javadoc-no-fork</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+        </plugins>
+      </reporting>
+    </profile>
+
+    <profile>
+      <id>github</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+          <id>google</id>
+          <url>https://maven.google.com/</url>
+        </repository>
+        <repository>
+          <id>google-api-services</id>
+          <url>https://google-api-client-libraries.appspot.com/mavenrepo</url>
+        </repository>
+      </repositories>
+    </profile>
+
+    <profile>
+      <id>database</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <configuration>
+              <files>
+                <file>local.properties</file>
+              </files>
+              <outputFile>
+                ${project.build.directory}/generated-resources/db.properties
+              </outputFile>
+              <properties>
+                <property>spring.datasource.url</property>
+                <property>spring.datasource.username</property>
+                <property>spring.datasource.password</property>
+              </properties>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>read-project-properties</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- xml -->
+    <profile>
+      <id>localhost-ssl</id>
+
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+
+      <properties>
+        <tls.dir>${project.build.directory}/generated-resources/tls</tls.dir>
+        <tls.password>changeit</tls.password>
+        <tls.keystore>${tls.dir}/localhost.p12</tls.keystore>
+        <tls.truststore>${tls.dir}/test-truststore.jks</tls.truststore>
+        <tls.cert>${tls.dir}/localhost.crt</tls.cert>
+
+        <!-- Von Surefire (siehe Dein POM) via @{argLine} übernommen -->
+        <argLine>
+          -Djavax.net.ssl.trustStore=${tls.truststore}
+          -Djavax.net.ssl.trustStorePassword=${tls.password}
+        </argLine>
+      </properties>
+
+      <build>
+        <plugins>
+          <!-- erzeugt Keystore, exportiert Cert und baut Truststore -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+              <execution>
+                <id>generate-localhost-truststore</id>
+                <phase>generate-test-resources</phase>
+                <configuration>
+                  <target>
+                    <mkdir dir="${tls.dir}"/>
+
+                    <!-- 1) localhost-KeyPair -->
+                    <exec executable="keytool" failonerror="true">
+                      <arg value="-genkeypair"/>
+                      <arg value="-alias"/><arg value="localhost"/>
+                      <arg value="-keyalg"/><arg value="RSA"/>
+                      <arg value="-keysize"/><arg value="2048"/>
+                      <arg value="-storetype"/><arg value="PKCS12"/>
+                      <arg value="-keystore"/><arg value="${tls.keystore}"/>
+                      <arg value="-storepass"/><arg value="${tls.password}"/>
+                      <arg value="-keypass"/><arg value="${tls.password}"/>
+                      <arg value="-dname"/><arg value="CN=localhost, OU=Dev, O=Local, L=local, S=NA, C=DE"/>
+                      <arg value="-ext"/><arg value="SAN=dns:localhost,ip:127.0.0.1,ip:0:0:0:0:0:0:0:1"/>
+                      <arg value="-validity"/><arg value="36500"/>
+                    </exec>
+
+                    <!-- 2) Zertifikat exportieren -->
+                    <exec executable="keytool" failonerror="true">
+                      <arg value="-exportcert"/>
+                      <arg value="-alias"/><arg value="localhost"/>
+                      <arg value="-keystore"/><arg value="${tls.keystore}"/>
+                      <arg value="-storepass"/><arg value="${tls.password}"/>
+                      <arg value="-rfc"/>
+                      <arg value="-file"/><arg value="${tls.cert}"/>
+                    </exec>
+
+                    <!-- 3) Truststore erstellen/füllen -->
+                    <exec executable="keytool" failonerror="true">
+                      <arg value="-importcert"/>
+                      <arg value="-noprompt"/>
+                      <arg value="-alias"/><arg value="localhost"/>
+                      <arg value="-file"/><arg value="${tls.cert}"/>
+                      <arg value="-keystore"/><arg value="${tls.truststore}"/>
+                      <arg value="-storepass"/><arg value="${tls.password}"/>
+                    </exec>
+                  </target>
+                </configuration>
+                <goals><goal>run</goal></goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
+
