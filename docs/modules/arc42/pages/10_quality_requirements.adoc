@@ -6,15 +6,10 @@ include::partial$config.adoc[]
 | Requirement | Description
 
 |[[REQ-FS,Functional Suitability]] **Functional Suitability**
-|* The software **has to** manage {gloss_rpg} event data.
+|* The software **has to** manage event data.
 This should include at least:
-** Event Calendar
-** Workshop Sessions
-** Gaming Tables
 ** Locations
-** Game Masters
-** Players
-** Game Systems
+** Sessions
 
 |[[REQ-CO,Compatibility]] **Compatibility**
 |* The managed data **has to** integrate into spring-security.
@@ -45,17 +40,22 @@ This includes IT security and data protection.
 @startmindmap
 + **Requirements**
 -- Functional Suitability (FS)
----_ Provide Event Calendar (FS01)
----_ Self-Service for Users (Gamers, Game Masters, Con Organizers) (FS03)
+--- Provide Event Management (FS01)
+----_ Locations
+-----_ Rooms
+-----_ Tables
+-----_ Accommodations
+----_ Events
+-----_ Tracks
+-----_ Sessions
+---_ Self-Service for Users (Organizers, Speakers and Participants) (FS03)
 ---_ Notification System to users (FS04)
 ---_ Data Display for Events (FS05)
 -- Compatibility (CO)
 ---_ Compatible with discord (CO01)
 ---_ Compatible with 3words (CO02)
 ---_ Compatible with OpenStreetMap (CO03)
----_ Compatible with Ical (CO04)
----_ Compatible with VTT systems (CO05)
----_ Compatible with Google Calendar (CO06)
+---_ Compatible with VTT systems (CO04)
 -- Security (SE)
 ---_ Data Retention TTL (FS02)
 ---_ Attribute based access control (ABAC) (US06)
@@ -84,8 +84,8 @@ This includes IT security and data protection.
 
 2+h| Functional Suitability
 
-|[[FS01,Provide Event Calendar (FS01)]] **FS01**
-| Provide a nice interface to show events in a calendar view.
+|[[FS01,Provide Event Management (FS01)]] **FS01**
+| Provide a nice interface to manage events.
 This includes drill down to details.
 
 |[[FS03,Self-Service for Users (Gamers, Game Masters, Con Organizers) (FS03)]] **FS03**
@@ -110,15 +110,8 @@ Users should be able to subscribe or mute events.
 |[[CO03,Compatible with OpenStreetMap (CO03)]] **CO03**
 |The system should display events using OpenStreetMap.
 
-|[[CO04,Compatible with Ical (CO04)]] **CO04**
-|The system should be able to export and import data using Ical format.
-This requirement fulfills the constraint {ct004}.
-
-|[[CO05,Compatible with VTT systems (CO05)]] **CO05**
+|[[CO04,Compatible with VTT systems (CO04)]] **CO04**
 |The system should offer direct links to Virtual Table Top systems like Roll20 or FoundryVTT.
-
-|[[co06,Compatible with Google Calendar (CO06)]] **CO06**
-|The system should be able to export and import data using Google Calendar.
 
 
 2+h| Usability

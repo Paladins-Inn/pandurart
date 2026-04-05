@@ -1,4 +1,4 @@
-:fs01: xref:10_quality_requirements.adoc#FS01[&uparrow;FS01 Provide Event Calendar]
+:fs01: xref:10_quality_requirements.adoc#FS01[&uparrow;FS01 Provide Event Management]
 :fs02: xref:10_quality_requirements.adoc#FS02[&uparrow;FS02 Data Retention TTL]
 :fs03: xref:10_quality_requirements.adoc#FS03[&uparrow;FS03 Self-Service]
 :fs04: xref:10_quality_requirements.adoc#FS04[&uparrow;FS04 Notification System]
@@ -7,9 +7,7 @@
 :co01: xref:10_quality_requirements.adoc#CO01[&uparrow;CO01 Compatible with discord]
 :co02: xref:10_quality_requirements.adoc#CO02[&uparrow;CO02 Compatible with 3words]
 :co03: xref:10_quality_requirements.adoc#CO03[&uparrow;CO03 Compatible with OpenStreetMap]
-:co04: xref:10_quality_requirements.adoc#CO04[&uparrow;CO04 Compatible withIcal]
-:co05: xref:10_quality_requirements.adoc#CO05[&uparrow;CO05 Compatible with VTT systems]
-:co06: xref:10_quality_requirements.adoc#CO06[&uparrow;CO06 Compatible with Google Calendar]
+:co04: xref:10_quality_requirements.adoc#CO05[&uparrow;CO04 Compatible with VTT systems]
 
 :us01: xref:10_quality_requirements.adoc#US01[&uparrow;US01 Web based]
 :us02: xref:10_quality_requirements.adoc#US02[&uparrow;US02 Multi-language]

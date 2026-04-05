@@ -1,10 +1,20 @@
-# PANDURART - slag line
+# PANDURART - Helping organizing events
 
 > What man is a man who does not make the world better.
 >
 > -- Balian, Kingdom of Heaven
 
 ## Abstract
+PANDURART is a software to help organizing events.
+Events are organized by organizations and take place in venues.
+They may have multiple tracks combined of multiple sessions.
+Every session has at least one speaker and multiple participants.
+
+
+## History
+This project evolved from Torganized Play and the https://rollenspiel-cons.info RPG Convention Calendar.
+Since there is a new and better calendar (https://con-kalender.org), I moved on to implement step two of the 
+organization tool.
 
 
 ## License
@@ -33,4 +43,4 @@ _right_. So no short cuts to get faster. And be prepared for some basic discussi
 design :-).
 
 ---
-CITY, DATE
+Bensheim, 2026-04-05

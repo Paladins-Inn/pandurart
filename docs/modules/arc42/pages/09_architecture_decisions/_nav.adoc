@@ -1,3 +1,4 @@
+*** xref:09_architecture_decisions/index.adoc[]
 **** xref:pandurart:arc42:09_architecture_decisions/001_using-adrs.adoc[]
 **** xref:pandurart:arc42:09_architecture_decisions/002_spring-boot.adoc[]
 **** xref:pandurart:arc42:09_architecture_decisions/003_messaging-rabbitmq.adoc[]
@@ -6,7 +7,6 @@
 **** xref:pandurart:arc42:09_architecture_decisions/006_rest-openapi.adoc[]
 **** xref:pandurart:arc42:09_architecture_decisions/007_authn-authz.adoc[]
 **** xref:pandurart:arc42:09_architecture_decisions/008_api_versioning.adoc[]
-**** xref:pandurart:arc42:09_architecture_decisions/009_caldav-library.adoc[]
 **** xref:pandurart:arc42:09_architecture_decisions/010_encryption-for-database-fields.adoc[]
 **** xref:pandurart:arc42:09_architecture_decisions/011_markdown.adoc[]
 **** xref:pandurart:arc42:09_architecture_decisions/012_zero-downtime-database-migrations.adoc[]
